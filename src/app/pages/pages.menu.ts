@@ -3,6 +3,94 @@ export const PAGES_MENU = [
     path: 'pages',
     children: [
       {
+        path: 'blogs',
+        data: {
+          menu: {
+            title: 'Blog Feeds',
+            icon: 'ion-android-home',
+            selected: false,
+            expanded: false,
+            order: 0
+          }
+        }
+      },
+      {
+        path: 'streams',
+        data: {
+          menu: {
+            title: 'Streams',
+            icon: 'ion-edit',
+            selected: false,
+            expanded: true,
+            order: 100,
+          }
+        },
+        children: [
+          {
+            path: 'stream1',
+            data: {
+              menu: {
+                title: '@stream1',
+              }
+            }
+          }
+        ]
+      },
+      
+      {
+        path: 'tags',
+        data: {
+          menu: {
+            title: 'Tags',
+            icon: 'ion-stats-bars',
+            selected: false,
+            expanded: false,
+            order: 100,
+          }
+        },
+        children: [
+          {
+            path: 'tag1',
+            data: {
+              menu: {
+                title: '#tag1',
+              }
+            }
+          }
+        ]
+      },
+      
+      
+            {
+        path: 'users',
+        data: {
+          menu: {
+            title: 'Following',
+            icon: 'ion-edit',
+            selected: false,
+            expanded: false,
+            order: 100,
+          }
+        },
+        children: [
+          {
+            path: 'user1',
+            data: {
+              menu: {
+                title: 'user',
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+];
+
+/*
+,
+      
+      {
         path: 'dashboard',
         data: {
           menu: {
@@ -349,6 +437,5 @@ export const PAGES_MENU = [
           }
         }
       }
-    ]
-  }
-];
+
+*/

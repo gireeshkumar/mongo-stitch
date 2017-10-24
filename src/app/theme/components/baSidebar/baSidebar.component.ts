@@ -9,8 +9,8 @@ import {layoutSizes} from '../../../theme';
 })
 export class BaSidebar {
   public menuHeight:number;
-  public isMenuCollapsed:boolean = false;
-  public isMenuShouldCollapsed:boolean = false;
+  public isMenuCollapsed:boolean = true;
+  public isMenuShouldCollapsed:boolean = true;
 
   constructor(private _elementRef:ElementRef, private _state:GlobalState) {
 

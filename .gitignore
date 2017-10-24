@@ -6,6 +6,13 @@
 /out-tsc
 /docs/build
 
+src/app/pages/editors
+src/app/pages/maps
+src/app/pages/tables
+src/app/pages/charts
+src/app/pages/dashboard
+src/app/pages/forms
+
 # dependencies
 /node_modules
 

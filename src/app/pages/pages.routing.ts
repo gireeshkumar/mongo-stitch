@@ -14,11 +14,20 @@ export const routes: Routes = [
     path: 'register',
     loadChildren: 'app/pages/register/register.module#RegisterModule'
   },
+    {
+    path: 'confirm',
+    loadChildren: 'app/pages/confirm/confirm.module#ConfirmModule'
+  },
   {
     path: 'pages',
     component: Pages,
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: '', redirectTo: 'login', pathMatch: 'full' }, /* { path: '', redirectTo: 'dashboard', pathMatch: 'full' } */
+       { path: 'blogs', loadChildren: './blogview/blogview.module#BlogViewdModule' },
+       
+        { path: 'streams/:stream', loadChildren: './blogview/blogview.module#BlogViewdModule' },
+        { path: 'tags/:tag', loadChildren: './blogview/blogview.module#BlogViewdModule' },
+         
       { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
       { path: 'editors', loadChildren: './editors/editors.module#EditorsModule' },
       { path: 'components', loadChildren: './components/components.module#ComponentsModule' },

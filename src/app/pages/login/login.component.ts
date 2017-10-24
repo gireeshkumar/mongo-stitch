@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 import {FormGroup, AbstractControl, FormBuilder, Validators} from '@angular/forms';
+import { Router, Params } from '@angular/router';
+import { StitchDBService } from '../../services/stitch-db.service';
 
 @Component({
   selector: 'login',
@@ -13,7 +15,7 @@ export class Login {
   public password:AbstractControl;
   public submitted:boolean = false;
 
-  constructor(fb:FormBuilder) {
+  constructor(fb:FormBuilder,  private stitchDB:StitchDBService,private router: Router ) {
     this.form = fb.group({
       'email': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
       'password': ['', Validators.compose([Validators.required, Validators.minLength(4)])]
@@ -23,11 +25,23 @@ export class Login {
     this.password = this.form.controls['password'];
   }
 
-  public onSubmit(values:Object):void {
+  public onSubmit(values:any):void {
     this.submitted = true;
     if (this.form.valid) {
       // your code goes here
-      // console.log(values);
+      console.log(values);
+      //stitchClient.login('<user-email>', '<user-password>');
+      
+      this.stitchDB.login(values.email, values.password).then(rslt=>{
+          console.log("Login success");
+          console.log(rslt);
+           this.router.navigate(['/pages/blogs']);
+      },
+      err=>{
+        console.log("Error in login");
+        console.log(err);
+      })
+      
     }
   }
 }

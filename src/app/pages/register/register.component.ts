@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {FormGroup, AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import {EmailValidator, EqualPasswordsValidator} from '../../theme/validators';
 
+import { StitchDBService } from '../../services/stitch-db.service';
+
 @Component({
   selector: 'register',
   templateUrl: './register.html',
@@ -18,7 +20,7 @@ export class Register {
 
   public submitted:boolean = false;
 
-  constructor(fb:FormBuilder) {
+  constructor(fb:FormBuilder, private stitchDB:StitchDBService) {
 
     this.form = fb.group({
       'name': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
@@ -36,11 +38,23 @@ export class Register {
     this.repeatPassword = this.passwords.controls['repeatPassword'];
   }
 
-  public onSubmit(values:Object):void {
+  public onSubmit(values:any):void {
     this.submitted = true;
     if (this.form.valid) {
       // your code goes here
-      // console.log(values);
+      console.log(values);
+      
+      // stitchClient.register('<user-email>', '<user-password>');
+      
+      this.stitchDB.register(values.email, values.passwords.password).then(rslt=> 
+       {
+         console.log("Result from user register");
+         console.log(rslt);
+       }, err=>{
+         console.log("Error in user registration");
+         console.log(err);
+       });
+      
     }
   }
 }

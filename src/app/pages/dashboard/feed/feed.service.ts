@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
+import { BlogService } from '../../../services/blog.service';
 
 @Injectable()
 export class FeedService {
-
+/*
   private _data = [
     {
       type: 'text-message',
@@ -12,7 +13,7 @@ export class FeedService {
       text: 'Guys, check this out: \nA police officer found a perfect hiding place for watching for speeding motorists. One day, the officer was amazed when everyone was under the speed limit, so he investigated and found the problem. A 10 years old boy was standing on the side of the road with a huge hand painted sign which said "Radar Trap Ahead." A little more investigative work led the officer to the boy\'s accomplice: another boy about 100 yards beyond the radar trap with a sign reading "TIPS" and a bucket at his feet full of change.',
       time: 'Today 11:55 pm',
       ago: '25 minutes ago',
-      expanded: false,
+      expanded: true,
     }, {
       type: 'video-message',
       author: 'Andrey',
@@ -23,7 +24,7 @@ export class FeedService {
       link: 'https://www.youtube.com/watch?v=IfcpzBbbamk',
       time: 'Today 9:30 pm',
       ago: '3 hrs ago',
-      expanded: false,
+      expanded: true,
     }, {
       type: 'image-message',
       author: 'Vlad',
@@ -34,7 +35,7 @@ export class FeedService {
       link: 'http://api.ning.com/files/DtcI2O2Ry7A7VhVxeiWfGU9WkHcMy4WSTWZ79oxJq*h0iXvVGndfD7CIYy-Ax-UAFCBCdqXI4GCBw3FOLKTTjQc*2cmpdOXJ/1082127884.jpeg',
       time: 'Today 2:20 pm',
       ago: '10 hrs ago',
-      expanded: false,
+      expanded: true,
     }, {
       type: 'text-message',
       author: 'Nasta',
@@ -43,7 +44,7 @@ export class FeedService {
       text: 'Haha lol',
       time: '11.11.2015',
       ago: '2 days ago',
-      expanded: false,
+      expanded: true,
     }, {
       type: 'geo-message',
       author: 'Nick',
@@ -54,7 +55,7 @@ export class FeedService {
       link: 'https://www.google.by/maps/place/New+York,+NY,+USA/@40.7201111,-73.9893872,14z',
       time: '11.11.2015',
       ago: '2 days ago',
-      expanded: false,
+      expanded: true,
     }, {
       type: 'text-message',
       author: 'Vlad',
@@ -63,7 +64,7 @@ export class FeedService {
       text: "First snake: I hope I'm not poisonous. Second snake: Why? First snake: Because I bit my lip!",
       time: '12.11.2015',
       ago: '3 days ago',
-      expanded: false,
+      expanded: true,
     }, {
       type: 'text-message',
       author: 'Andrey',
@@ -72,7 +73,7 @@ export class FeedService {
       text: 'How do you smuggle an elephant across the border? Put a slice of bread on each side, and call him "lunch".',
       time: '14.11.2015',
       ago: '5 days ago',
-      expanded: false,
+      expanded: true,
     }, {
       type: 'text-message',
       author: 'Nasta',
@@ -81,7 +82,7 @@ export class FeedService {
       text: 'When your hammer is C++, everything begins to look like a thumb.',
       time: '14.11.2015',
       ago: '5 days ago',
-      expanded: false,
+      expanded: true,
     }, {
       type: 'text-message',
       author: 'Alexander',
@@ -90,7 +91,7 @@ export class FeedService {
       text: '“I mean, they say you die twice. One time when you stop breathing and a second time, a bit later on, when somebody says your name for the last time." ©',
       time: '15.11.2015',
       ago: '6 days ago',
-      expanded: false,
+      expanded: true,
     }, {
       type: 'image-message',
       author: 'Nick',
@@ -101,7 +102,7 @@ export class FeedService {
       link: 'https://dribbble.com/shots/2504810-Protein-Heroes',
       time: '16.11.2015',
       ago: '7 days ago',
-      expanded: false,
+      expanded: true,
     },
     {
       type: 'text-message',
@@ -111,11 +112,84 @@ export class FeedService {
       text: 'Why did the CoffeeScript developer keep getting lost? Because he couldn\'t find his source without a map',
       time: '18.11.2015',
       ago: '9 days ago',
-      expanded: false,
+      expanded: true,
     }
-  ];
-
-  getData() {
-    return this._data;
+  ];*/
+  
+  constructor(private _blogService:BlogService) {
   }
+
+  getData(init) {
+    
+    return new Promise((resolve, reject)=>{
+      
+      let promise = this._blogService.loadUserBlogs();//(init ? this._blogService.loadInitialData() : this._blogService.loadUserBlogs());
+       promise.then(
+         rslt=>{ 
+           resolve(this.toFeedData(rslt))
+        },
+         err=>{}
+       );
+      
+    });
+    
+    //return this._data;
+  }
+  
+  toFeedData(rslt){
+    
+    /* Sample
+        {
+      type: 'text-message',
+      author: 'Kostya',
+      surname: 'Danovsky',
+      header: 'Posted new message',
+      text: 'Why did the CoffeeScript developer keep getting lost? Because he couldn\'t find his source without a map',
+      time: '18.11.2015',
+      ago: '9 days ago',
+      expanded: true,
+    }
+    */
+    
+    let arr = [];
+    
+    for(let i = 0; i < rslt.length; i++){
+      let val = rslt[i];
+      console.log(val);
+      
+      arr.push(
+          {
+          type: 'text-message',
+          author: 'Kostya',
+          surname: 'Danovsky',
+          header: 'Posted new message',
+          text: this.parseHashtag(this.parseUsername(val.content)),
+          time: '18.11.2015',
+          ago: '9 days ago',
+          expanded: true,
+        }
+      );
+    }
+    
+    
+    console.log(arr);
+    
+    return arr;
+  }
+  
+  parseUsername(stringdata) {
+    return stringdata.replace(/[@]+[A-Za-z0-9-_]+/g, function(u) {
+        var username = u.replace("@","")
+        return u.link("#/pages/streams/"+username);
+    });
+ }
+ 
+ parseHashtag(stringdata) {
+    return stringdata.replace(/[#]+[A-Za-z0-9-_]+/g, function(t) {
+        var tag = t.replace("#","")//%23
+        return t.link("#/pages/tags/"+tag);
+    });
+}
+ 
+ 
 }

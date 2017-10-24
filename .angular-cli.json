@@ -29,6 +29,7 @@
         "../node_modules/fullcalendar/dist/fullcalendar.css",
         "../node_modules/handsontable/dist/handsontable.full.css",
         "../node_modules/ng2-slim-loading-bar/style.css",
+        "../node_modules/at.js/dist/css/jquery.atwho.min.css",
         "app/theme/theme.scss",
         "styles.scss"
       ],
@@ -39,6 +40,8 @@
         "../node_modules/tether/dist/js/tether.js",
         "../node_modules/bootstrap/dist/js/bootstrap.js",
         "../node_modules/handsontable/dist/handsontable.full.js",
+         "../node_modules/jquery.caret/dist/jquery.caret.min.js",
+        "../node_modules/at.js/dist/js/jquery.atwho.min.js",
         "../node_modules/chroma-js/chroma.js"
       ],
       "environmentSource": "environments/environment.ts",
@@ -72,6 +75,10 @@
   "defaults": {
     "styleExt": "scss",
     "component": {
-    }
+    },
+    	"serve": {
+            "live-reload-port": 49153,
+            "host": "0.0.0.0"
+        }
   }
 }

@@ -12,7 +12,7 @@ import { GlobalState } from '../../../global.state';
 })
 export class BaMenu {
 
-  @Input() sidebarCollapsed: boolean = false;
+  @Input() sidebarCollapsed: boolean = true;
   @Input() menuHeight: number;
 
   @Output() expandMenu = new EventEmitter<any>();
